@@ -301,6 +301,13 @@ public class DubboSample extends AbstractSampler implements Interruptible {
                 if (e instanceof RpcException) {
                     RpcException rpcException = (RpcException) e;
                     setResponseError(res, String.valueOf(rpcException.getCode()), rpcException.getMessage());
+                    // Clear the cache when RpcException occurs to allow next call to recreate the service
+                    try {// 这里有点激进，发生就清除缓存
+                        cache.destroy(reference);
+                        log.info("ReferenceConfigCache cleared for address: " + Constants.getAddress(this));
+                    } catch (Exception cacheException) {
+                        log.warn("Failed to clear ReferenceConfigCache: ", cacheException);
+                    }
                 } else {
                     setResponseError(res, ErrorCode.UNKNOWN_EXCEPTION);
                 }
