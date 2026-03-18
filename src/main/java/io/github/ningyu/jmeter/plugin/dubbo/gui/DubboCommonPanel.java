@@ -555,15 +555,17 @@ public class DubboCommonPanel {
         modelAttachment.setDataVector(null, columnNamesAttachment);
     }
 
-    private List<MethodArgument> getMethodArgsData(Vector<Vector<String>> data) {
+    private List<MethodArgument> getMethodArgsData(@SuppressWarnings("rawtypes") Vector data) {
         List<MethodArgument> params = new ArrayList<MethodArgument>();
         if (!data.isEmpty()) {
             //处理参数
-            Iterator<Vector<String>> it = data.iterator();
-            while(it.hasNext()) {
-                Vector<String> param = it.next();
-                if (!param.isEmpty()) {
-                    params.add(new MethodArgument(param.get(0), param.get(1)));
+            for (Object item : data) {
+                if (item instanceof Vector) {
+                    @SuppressWarnings("unchecked")
+                    Vector<String> param = (Vector<String>) item;
+                    if (!param.isEmpty()) {
+                        params.add(new MethodArgument(param.get(0), param.get(1)));
+                    }
                 }
             }
         }
