@@ -22,7 +22,7 @@
 	<version>${revision}</version>
 
 	<properties>
-		<revision>2.7.23</revision>
+		<revision>3.3.6</revision>
 		<java.version>1.8</java.version>
 		<java.source.version>1.8</java.source.version>
 		<java.target.version>1.8</java.target.version>
@@ -31,7 +31,8 @@
 		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <dubbo.version>2.7.23</dubbo.version>
+        <dubbo.version>3.3.6</dubbo.version>
+		<gson.version>2.11.0</gson.version>
 		<jorphan.version>3.0</jorphan.version>
 		<avalon.framework.version>4.1.4</avalon.framework.version>
 		<jmeter.core.version>3.0</jmeter.core.version>
@@ -118,41 +119,18 @@
 			<groupId>org.apache.dubbo</groupId>
 			<artifactId>dubbo-registry-zookeeper</artifactId>
 		</dependency>
-		<!-- redis -->
-		<dependency>
-			<groupId>org.apache.dubbo</groupId>
-			<artifactId>dubbo-registry-redis</artifactId>
-		</dependency>
 		<!-- serialization -->
+		<!-- 注: Dubbo 3.x 已移除 redis 注册中心及 FST/Kryo/FastJSON1/Gson/Avro 序列化模块, 默认推荐 hessian2 -->
 		<!-- hessian2 -->
 		<dependency>
 			<groupId>org.apache.dubbo</groupId>
 			<artifactId>dubbo-serialization-hessian2</artifactId>
 		</dependency>
-		<!-- FST -->
+		<!-- gson (JsonUtils 使用, Dubbo 3.x 不再传递 gson 依赖) -->
 		<dependency>
-			<groupId>org.apache.dubbo</groupId>
-			<artifactId>dubbo-serialization-fst</artifactId>
-		</dependency>
-		<!-- kryo -->
-		<dependency>
-			<groupId>org.apache.dubbo</groupId>
-			<artifactId>dubbo-serialization-kryo</artifactId>
-		</dependency>
-		<!-- fastjson -->
-		<dependency>
-			<groupId>org.apache.dubbo</groupId>
-			<artifactId>dubbo-serialization-fastjson</artifactId>
-		</dependency>
-		<!-- gson -->
-		<dependency>
-			<groupId>org.apache.dubbo</groupId>
-			<artifactId>dubbo-serialization-gson</artifactId>
-		</dependency>
-		<!-- avro -->
-		<dependency>
-			<groupId>org.apache.dubbo</groupId>
-			<artifactId>dubbo-serialization-avro</artifactId>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
 		</dependency>
 		<!-- Log -->
 		<!-- slf4j -->

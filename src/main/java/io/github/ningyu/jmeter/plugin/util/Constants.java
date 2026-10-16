@@ -40,6 +40,7 @@ public class Constants {
 
 	//RPC Protocol
 	public static final String RPC_PROTOCOL_DUBBO = "dubbo";
+	public static final String RPC_PROTOCOL_TRIPLE = "tri";
 	public static final String RPC_PROTOCOL_RMI = "rmi";
 	public static final String RPC_PROTOCOL_HESSIAN = "hessian";
 	public static final String RPC_PROTOCOL_HTTP = "http";

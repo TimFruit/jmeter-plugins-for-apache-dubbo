@@ -19,9 +19,10 @@ package io.github.ningyu.jmeter.plugin.dubbo.sample;
 
 import io.github.ningyu.jmeter.plugin.util.Constants;
 import org.apache.dubbo.common.URL;
+import org.apache.dubbo.common.constants.RegistryConstants;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.utils.ReferenceConfigCache;
+import org.apache.dubbo.config.utils.SimpleReferenceCache;
 import org.apache.dubbo.registry.RegistryService;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;
@@ -102,15 +103,15 @@ public class ProviderService implements Serializable {
         }
         reference.setInterface("org.apache.dubbo.registry.RegistryService");
         try {
-            ReferenceConfigCache cache = ReferenceConfigCache.getCache(address + "_" + group);
-            RegistryService registryService = (RegistryService) cache.get(reference);
+            SimpleReferenceCache cache = SimpleReferenceCache.getCache(address + "_" + group);
+            RegistryService registryService = (RegistryService) cache.get(reference, true);
             if (registryService == null) {
                 throw new RuntimeException("Can't get the interface list, please check if the address is wrong!");
             }
             RegistryServerSync registryServerSync = RegistryServerSync.get(address + "_" + group);
             registryService.subscribe(RegistryServerSync.SUBSCRIBE, registryServerSync);
             List<String> ret = new ArrayList<String>();
-            providerUrls = registryServerSync.getRegistryCache().get(com.alibaba.dubbo.common.Constants.PROVIDERS_CATEGORY);
+            providerUrls = registryServerSync.getRegistryCache().get(RegistryConstants.PROVIDERS_CATEGORY);
             if (providerUrls != null) ret.addAll(providerUrls.keySet());
             return ret;
         } catch (Exception e) {

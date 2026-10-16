@@ -25,7 +25,7 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ConfigCenterConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.config.utils.ReferenceConfigCache;
+import org.apache.dubbo.config.utils.SimpleReferenceCache;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.service.GenericService;
@@ -268,9 +268,9 @@ public class DubboSample extends AbstractSampler implements Interruptible {
                 return ErrorCode.MISS_METHOD.getMessage();
             }
 
-            // The registry's address is to generate the ReferenceConfigCache key
-            ReferenceConfigCache cache = ReferenceConfigCache.getCache(Constants.getAddress(this));
-            GenericService genericService = (GenericService) cache.get(reference);
+            // The registry's address is to generate the SimpleReferenceCache key
+            SimpleReferenceCache cache = SimpleReferenceCache.getCache(Constants.getAddress(this));
+            GenericService genericService = (GenericService) cache.get(reference, true);
             if (genericService == null) {
                 setResponseError(res, ErrorCode.GENERIC_SERVICE_IS_NULL);
                 return MessageFormat.format(ErrorCode.GENERIC_SERVICE_IS_NULL.getMessage(), interfaceName);
@@ -288,7 +288,7 @@ public class DubboSample extends AbstractSampler implements Interruptible {
 
             List<MethodArgument> attachmentArgs = Constants.getAttachmentArgs(this);
             if (attachmentArgs != null && !attachmentArgs.isEmpty()) {
-                RpcContext.getContext().setAttachments(attachmentArgs.stream().collect(Collectors.toMap(MethodArgument::getParamType, MethodArgument::getParamValue)));
+                RpcContext.getClientAttachment().setAttachments(attachmentArgs.stream().collect(Collectors.toMap(MethodArgument::getParamType, MethodArgument::getParamValue)));
             }
 
             res.sampleStart();
@@ -304,9 +304,9 @@ public class DubboSample extends AbstractSampler implements Interruptible {
                     // Clear the cache when RpcException occurs to allow next call to recreate the service
                     try {// 这里有点激进，发生就清除缓存
                         cache.destroy(reference);
-                        log.info("ReferenceConfigCache cleared for address: " + Constants.getAddress(this));
+                        log.info("SimpleReferenceCache cleared for address: " + Constants.getAddress(this));
                     } catch (Exception cacheException) {
-                        log.warn("Failed to clear ReferenceConfigCache: ", cacheException);
+                        log.warn("Failed to clear SimpleReferenceCache: ", cacheException);
                     }
                 } else {
                     setResponseError(res, ErrorCode.UNKNOWN_EXCEPTION);

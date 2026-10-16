@@ -8,6 +8,7 @@ Dubbo Plugin for Apache JMeter, Its main purpose is to perform stress testing on
 
 * [1.x,1.3.x]: requires Java 1.7
 * 2.7.x: requires Java 1.8
+* 3.3.x: requires Java 1.8
 
 # JMeter Version Support
 
@@ -21,6 +22,7 @@ ps. [3.x,4,x,5.x] Tested for normal use
 * 2.5.x: requires Java 1.7
 * 2.6.x: requires Java 1.7
 * 2.7.x: requires Java 1.8
+* 3.x: requires Java 1.8
 
 # User Guide
 

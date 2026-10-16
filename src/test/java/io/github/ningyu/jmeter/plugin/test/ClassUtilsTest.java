@@ -1,6 +1,6 @@
 package io.github.ningyu.jmeter.plugin.test;
 
-import com.google.common.reflect.TypeToken;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.internal.LinkedTreeMap;
 import io.github.ningyu.jmeter.plugin.bean.LocaleTestBean;
 import io.github.ningyu.jmeter.plugin.bean.LongTestBean;

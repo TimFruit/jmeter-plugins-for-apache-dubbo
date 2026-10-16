@@ -16,7 +16,7 @@
  */
 package io.github.ningyu.jmeter.plugin.util;
 
-import com.google.common.reflect.TypeToken;
+import com.google.gson.reflect.TypeToken;
 import io.github.ningyu.jmeter.plugin.dubbo.sample.MethodArgument;
 import org.apache.jorphan.logging.LoggingManager;
 import org.apache.log.Logger;

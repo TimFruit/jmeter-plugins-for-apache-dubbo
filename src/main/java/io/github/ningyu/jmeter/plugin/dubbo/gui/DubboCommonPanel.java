@@ -21,6 +21,7 @@ import io.github.ningyu.jmeter.plugin.dubbo.sample.ProviderService;
 import io.github.ningyu.jmeter.plugin.util.Constants;
 import io.github.ningyu.jmeter.plugin.util.StringUtils;
 import org.apache.dubbo.common.URL;
+import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.jmeter.gui.util.HorizontalPanel;
 import org.apache.jmeter.gui.util.VerticalPanel;
 import org.apache.jmeter.testelement.TestElement;
@@ -59,7 +60,7 @@ public class DubboCommonPanel {
     private JTextField configCenterAddressText;
     private JTextField configCenterTimeoutText;
     /** Rpc Protocol */
-    private JComboBox<String> rpcProtocolText;
+    private JAutoCompleteComboBox<String> rpcProtocolText;
     /** Consumer & Service */
     private JTextField timeoutText;
     private JTextField versionText;
@@ -209,7 +210,7 @@ public class DubboCommonPanel {
         //RPC Protocol
         JPanel rpcPh = new HorizontalPanel();
         JLabel rpcProtocolLable = new JLabel("Protocol:", SwingConstants.RIGHT);
-        rpcProtocolText = new JComboBox<String>(new String[]{"dubbo://", "rmi://", "hessian://", "webservice://", "memcached://", "redis://"});
+        rpcProtocolText = new JAutoCompleteComboBox<String>(new String[]{"dubbo://", "tri://", "rmi://", "hessian://", "webservice://", "memcached://", "redis://"});
         rpcProtocolLable.setLabelFor(rpcProtocolText);
         rpcPh.add(rpcProtocolLable);
         rpcPh.add(rpcProtocolText);
@@ -500,7 +501,7 @@ public class DubboCommonPanel {
         Constants.setConfigCenterTimeout(configCenterTimeoutText.getText(), element);
     }
     public void modifyProtocol(TestElement element) {
-        Constants.setRpcProtocol(rpcProtocolText.getSelectedItem().toString(), element);
+        Constants.setRpcProtocol(rpcProtocolText.getText(), element);
     }
     public void modifyConsumer(TestElement element) {
         Constants.setTimeout(timeoutText.getText(), element);
@@ -589,12 +590,12 @@ public class DubboCommonPanel {
         Map<String, URL> provider = providerService.findByService(key);
         if (provider != null && !provider.isEmpty()) {
             URL url = new ArrayList<URL>(provider.values()).get(0);
-            String group = url.getParameter(com.alibaba.dubbo.common.Constants.GROUP_KEY);
-            String version = url.getParameter(com.alibaba.dubbo.common.Constants.VERSION_KEY);
-            String timeout = url.getParameter(com.alibaba.dubbo.common.Constants.TIMEOUT_KEY);
+            String group = url.getParameter(CommonConstants.GROUP_KEY);
+            String version = url.getParameter(CommonConstants.VERSION_KEY);
+            String timeout = url.getParameter(CommonConstants.TIMEOUT_KEY);
             String protocol = url.getProtocol() + "://";
             String interfaceName = url.getServiceInterface();
-            String method = url.getParameter(com.alibaba.dubbo.common.Constants.METHODS_KEY);
+            String method = url.getParameter(CommonConstants.METHODS_KEY);
             groupText.setText(group);
             versionText.setText(version);
             timeoutText.setText(timeout);
